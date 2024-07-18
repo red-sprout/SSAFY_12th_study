@@ -1,0 +1,10 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] change = {"c=","c-","dz=","d-","lj","nj","s=","z="};
+        String str = new Scanner(System.in).next();
+        for (String w : change) s = s.replaceAll(w, ",");
+        System.out.print(str.length());
+    }
+}
