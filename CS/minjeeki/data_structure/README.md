@@ -2,3 +2,4 @@
 
 * [시간복잡도](/CS/minjeeki/data_structure/complexity_analysis/complexity_analysis.md)
 * [리스트 - 배열 리스트, 연결 리스트](/CS/minjeeki/data_structure/list/list.md)
+* [선형 자료구조 - 스택, 큐](/CS/minjeeki/data_structure/stack_queue.md)
