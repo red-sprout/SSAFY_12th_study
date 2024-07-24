@@ -1,6 +1,26 @@
 n, w, L = map(int,input().split())
 trucks = list(map(int,input().split()))
 
+bridge = [0] * w # 다리 길이만큼의 큐
+time = 0
+
+for truck in trucks:
+    while True:
+        bridge.pop(0)
+        # print(f'bridge={bridge}time={time}')
+        if sum(bridge)+truck <= L: # 다리 하중을 안 넘을 경우
+            bridge.append(truck)
+            time += 1  
+            break
+        else :
+            bridge.append(0)
+            time += 1  
+         
+print(time+w)
+  
+
+
+''' 실패 try1 : 반례를 고려하지 않음
 time = 0
 weight_check = 0
 truck_list = []
@@ -30,3 +50,18 @@ print(res)
 
 # 마지막은 같이 가는 트럭수만큼
 # 중간은 트럭수 -1만큼(겹쳐가므로)
+'''
+
+''' try2 : 클래스 만들려다 실패
+class truck() :
+    def __init__(self, size):
+        self.queue = [0] * size
+    
+    def dequeue(self):
+        if len(self.queue) == 0:
+                return -1
+        self.queue.pop(0)
+
+    def enqueue(self, n):
+         self.append(n)
+'''
