@@ -1,0 +1,47 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+public class Main {
+	
+	static int n;
+	static String arr[][];
+	static StringBuilder sb = new StringBuilder();
+	
+	public static void main(String[] args) throws IOException{
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		n = Integer.parseInt(br.readLine());
+		//생각난 방법1. 일단 다 별이나 공백으로 채우고 바꿔야 할 부분만 바꾸기
+		arr = new String [n][n];
+		for(int i = 0; i < n; i++) 
+				Arrays.fill(arr[i], " ");
+		star(0, 0, n);
+		
+		for(int i = 0; i < n; i++) {
+			for(int j = 0; j < n; j++) {
+				sb.append(arr[i][j]);
+			}
+			sb.append("\n");
+			
+			}System.out.println(sb);
+		}
+		
+	static void star(int x, int y, int m) {
+		if(m == 1) {
+			//무한반복 막기위한 제어문
+			arr[x][y]= "*";
+			return;
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 3; j++) {
+				if(!(i ==1 && j ==1)) {
+					star(x+i*(m/3), y + j*(m/3), m/3);
+				}
+			}
+		}
+	}
+}
