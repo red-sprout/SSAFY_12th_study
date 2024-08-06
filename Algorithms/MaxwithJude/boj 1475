@@ -1,0 +1,24 @@
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferdReader br = new BufferdReader(new InputStreamReader(System.in));
+        String str = br.readLine();
+
+        int []ar = new int[10];
+        for(int i = 0; i < str.length(); i++){
+            int cnt = Character.getNumericValue(str.charAt(i));
+            if( cnt == 6){
+                ar[9]++;
+            }else{
+                ar[cnt]++;
+            }
+        }
+        int value = 0;
+        for(int i = 0; i < 9; i++){
+            value = Math.max(value, ar[i]);
+        }
+        int nine = ar[9]/2;
+        if(ar[9]%2==1) nine++;
+        value = Math.max(value,nine);
+        System.out.println(value);
+    }
+}

@@ -1,0 +1,45 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main {
+	static int count = 0; 
+
+	public static void main(String[] args) throws IOException{
+	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int N = Integer.parseInt(st.nextToken());
+		int r = Integer.parseInt(st.nextToken());
+		int c =  Integer.parseInt(st.nextToken());
+		
+		int M = (int) Math.pow(2, N);
+		
+		find(M, r, c);
+		System.out.println(count);
+	}
+	private static void find(int M, int r, int c) {
+		if(M == 1) 
+			return;
+		
+		if(r < M/2 && c < M/2) {
+			find(M/2, r, c);
+		}
+		else if(r < M/2 && c >= M/2) {
+			count += M * M /4;
+			find(M/2, r, c - M/2);
+		}
+		else if(r >= M/2 && c < M/2) {
+			count += (M * M / 4) * 2;
+			find(M/2, r- M/2, c);
+		}
+		else {
+				count += (M * M / 4) * 3;
+				find(M/2, r - M/2, c - M/2);
+		}
+	}
+		 
+		
+}
