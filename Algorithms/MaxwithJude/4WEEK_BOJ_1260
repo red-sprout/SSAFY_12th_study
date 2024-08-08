@@ -1,0 +1,70 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+public class Main {
+	static boolean[] check;
+	static int [][] arr;
+	static StringBuilder sb = new StringBuilder();
+	
+	static Queue<Integer> qu = new LinkedList<>();
+	static int n, m, v;
+	
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		v = Integer.parseInt(st.nextToken());
+		arr = new int[n+1][n+1];
+		check = new boolean[n+1];
+		
+		for(int i = 0; i < m; i++) {
+			st = new StringTokenizer(br.readLine());
+			
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			
+			arr[a][b] = arr[b][a] = 1;
+			
+		}
+		dfs(v);
+		Arrays.fill(check, false);
+		
+		bfs(v);
+		System.out.println(sb);
+		
+	}
+	public static void dfs(int num) {
+		check[num] = true;
+		sb.append(num).append(" ");
+		
+		for(int i = 1; i <= n; i++) {
+			if(arr[num][i] == 1 && !check[i])
+				dfs(i);
+		}
+	}
+	
+	public static void bfs(int num) {
+		qu.add(num);
+		check[num] = true;
+		sb.append('\n').append(num).append(" ");
+		while(!qu.isEmpty()) {
+			int idx = qu.poll();
+			
+			for(int i = 1; i <= n; i++) {
+				if(arr[idx][i] == 1 && !check[i]) {
+					qu.add(i);
+					check[i] = true;
+					sb.append(i).append(" ");
+				}
+			}
+		}
+	}
+		
+}
