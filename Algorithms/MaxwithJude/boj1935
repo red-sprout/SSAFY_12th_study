@@ -1,0 +1,63 @@
+public class Main {
+    static Stack<Double> st = new Stack<Double>();
+    public static void main(String[] args) throws IOException{
+        BufferdReader br = new BufferdReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        String str = br.readLine();
+        Double[] arr = new Double[N];
+        //후위표기법은 문제 풀이 자체가 다르다.
+        //1,2,3이 스택에 들어가고
+        //1. 2*3 = 6
+        //2. 1 + 6 = 7
+        //3. 다시 피연산자를 만났으니 7, 4, 5가 들어가 있다.
+        //4. 4/5 = 0.8
+        //5. 7 - 0.8 = 6.2
+
+        //로직
+        //연산자를 만날 때까지 피연산자를 스택에 push하고 연산자를 만나면 피연산자를 꺼내서 계산하기
+        for(int i = 0; i < N; i++){
+            arr[i] = Double.parseDouble(br.readLine());
+        }
+
+        complex(arr, str);
+        System.out.println(String.format("%.2f", st.pop()));
+    }
+
+    public static void complex(Double arr[]), String str){
+        int index = 0;
+
+        for(int i = 0; i < str.length(); i++){
+            char temp = str.charAt(i);
+
+            //연산자와 피연산자 나누기
+            if('A' <= temp && temp<= 'Z'){
+                index = temp - 'A';
+                st.add(arr[index]);
+            }else{
+                double indexB = st.pop():
+                double indexA = st.pop();
+                double result = cal(indexA, indexB, temp);
+                st.add(result);
+            }
+        }
+    }
+    public static double cal(double A, double B, char temp){
+        double value = 0;
+        switch(temp){
+            case '+':
+            value = A + B;
+            break;
+            case '-':
+            value = A - B;
+            break;
+            case '/':
+            value = A /B;
+            break;
+            case '*':
+            value = A * B;
+            break;
+        }
+        return value;
+    }
+}
