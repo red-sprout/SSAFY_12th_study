@@ -1,4 +1,4 @@
-package DobeeKim_6ÁÖÂ÷;
+package DobeeKim_6ì£¼ì°¨;
 
 public class BOJ_17472 {
 	

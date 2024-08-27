@@ -1,4 +1,4 @@
-package DobeeKim_6ÁÖÂ÷;
+package DobeeKim_6ì£¼ì°¨;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,48 +32,48 @@ public class SWEA_4014 {
 
 	private static void makeAirway() {
 		
-		// °¡·Î Ã¼Å©
+		// ê°€ë¡œ ì²´í¬
 		for (int i = 0; i < N; i++) {
 			boolean lineFail = false;
 			Installed = new boolean[N];
 			int idx = 1;
 			outer : 
 			while (idx<N) {
-				// ºñ±³
+				// ë¹„êµ
 				int left = map[i][idx-1];
 				int right = map[i][idx];
 				int comp = left - right;
 				switch (comp){
-					case 1 : //È°ÁÖ·Î +¹æÇâ
+					case 1 : //í™œì£¼ë¡œ +ë°©í–¥
 						for (int k = idx; k < idx+X ; k++) {
-							// ±¸°£¿¡¼­ ¹ş¾î³ª°Å³ª, ±æÀÌ¸¸Å­ °ªÀÌ °°Áö ¾Ê°Å³ª, ¼³Ä¡µÈ °Í°ú °ãÄ¥ ½Ã
+							// êµ¬ê°„ì—ì„œ ë²—ì–´ë‚˜ê±°ë‚˜, ê¸¸ì´ë§Œí¼ ê°’ì´ ê°™ì§€ ì•Šê±°ë‚˜, ì„¤ì¹˜ëœ ê²ƒê³¼ ê²¹ì¹  ì‹œ
 							if (k < 0 || k >= N || right != map[i][k] || Installed[k] == true) {
 								lineFail = true;
 								break outer;
 							}
 						}
-						// È°ÁÖ·Î ¼³Ä¡
+						// í™œì£¼ë¡œ ì„¤ì¹˜
 						for (int k = idx+1; k < idx+X ; k++) {
 							Installed[k] = true;
 						}
 						idx = idx+X;
 					break;	
-					case -1 : //È°ÁÖ·Î -¹æÇâ
+					case -1 : //í™œì£¼ë¡œ -ë°©í–¥
 						for (int k = idx-1; k >= idx-X ; k--) {
-							// ±¸°£¿¡¼­ ¹ş¾î³ª°Å³ª, ±æÀÌ¸¸Å­ °ªÀÌ °°Áö ¾Ê°Å³ª, ¼³Ä¡µÈ °Í°ú °ãÄ¥ ½Ã
+							// êµ¬ê°„ì—ì„œ ë²—ì–´ë‚˜ê±°ë‚˜, ê¸¸ì´ë§Œí¼ ê°’ì´ ê°™ì§€ ì•Šê±°ë‚˜, ì„¤ì¹˜ëœ ê²ƒê³¼ ê²¹ì¹  ì‹œ
 							if (k < 0 || k >= N || left != map[i][k] || Installed[k] == true) {
 								lineFail = true;
 								break outer;
 							}
 						}
 						
-						// È°ÁÖ·Î ¼³Ä¡
+						// í™œì£¼ë¡œ ì„¤ì¹˜
 						for (int k = idx-1; k >= idx-X ; k--) {
 							Installed[k] = true;
 						}
 						idx++;
 					break;
-					case 0 : // °°Àº ¼ıÀÚ
+					case 0 : // ê°™ì€ ìˆ«ì
 						idx++;
 					break;
 					default:
@@ -84,47 +84,47 @@ public class SWEA_4014 {
 			if(!lineFail) cnt++;
 		}
 		
-		// ¼¼·Î Ã¼Å©
+		// ì„¸ë¡œ ì²´í¬
 		for (int i = 0; i < N; i++) {
 			boolean lineFail = false;
 			Installed = new boolean[N];
 			int idx = 1;
 			outer : 
 			while (idx<N) {
-				// ºñ±³
+				// ë¹„êµ
 				int left = map[idx-1][i];
 				int right = map[idx][i];
 				int comp = left - right;
 				switch (comp){
-					case 1 : //È°ÁÖ·Î +¹æÇâ
+					case 1 : //í™œì£¼ë¡œ +ë°©í–¥
 						for (int k = idx; k < idx+X ; k++) {
-							// ±¸°£¿¡¼­ ¹ş¾î³ª°Å³ª, ±æÀÌ¸¸Å­ °ªÀÌ °°Áö ¾Ê°Å³ª, ¼³Ä¡µÈ °Í°ú °ãÄ¥ ½Ã
+							// êµ¬ê°„ì—ì„œ ë²—ì–´ë‚˜ê±°ë‚˜, ê¸¸ì´ë§Œí¼ ê°’ì´ ê°™ì§€ ì•Šê±°ë‚˜, ì„¤ì¹˜ëœ ê²ƒê³¼ ê²¹ì¹  ì‹œ
 							if (k < 0 || k >= N || right != map[k][i] || Installed[k] == true) {
 								lineFail = true;
 								break outer;
 							}
 						}
-						// È°ÁÖ·Î ¼³Ä¡
+						// í™œì£¼ë¡œ ì„¤ì¹˜
 						for (int k = idx+1; k < idx+X ; k++) {
 							Installed[k] = true;
 						}
 						idx = idx+X;
 					break;	
-					case -1 : //È°ÁÖ·Î -¹æÇâ
+					case -1 : //í™œì£¼ë¡œ -ë°©í–¥
 						for (int k = idx-1; k >= idx-X ; k--) {
-							// ±¸°£¿¡¼­ ¹ş¾î³ª°Å³ª, ±æÀÌ¸¸Å­ °ªÀÌ °°Áö ¾Ê°Å³ª, ¼³Ä¡µÈ °Í°ú °ãÄ¥ ½Ã
+							// êµ¬ê°„ì—ì„œ ë²—ì–´ë‚˜ê±°ë‚˜, ê¸¸ì´ë§Œí¼ ê°’ì´ ê°™ì§€ ì•Šê±°ë‚˜, ì„¤ì¹˜ëœ ê²ƒê³¼ ê²¹ì¹  ì‹œ
 							if (k < 0 || k >= N || left != map[k][i] || Installed[k] == true) {
 								lineFail = true;
 								break outer;
 							}
 						}
-						// È°ÁÖ·Î ¼³Ä¡
+						// í™œì£¼ë¡œ ì„¤ì¹˜
 						for (int k = idx-1; k >= idx-X ; k--) {
 							Installed[k] = true;
 						}
 						idx++;
 					break;
-					case 0 : // °°Àº ¼ıÀÚ
+					case 0 : // ê°™ì€ ìˆ«ì
 						idx++;
 					break;
 					default:
