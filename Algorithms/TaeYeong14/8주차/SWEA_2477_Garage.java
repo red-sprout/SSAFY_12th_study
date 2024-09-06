@@ -5,7 +5,7 @@ public class SWEA_2477_Garage {
     static int N,M,K,A,B,ans,ai[],bi[];
     static ArrayDeque<int[]> tk=new ArrayDeque<>();//접수는 순서대로
     static PriorityQueue<int[]> repair=new PriorityQueue<>((o1,o2)->(o1[1]!=o2[1])? Integer.compare(o1[1],o2[1]):Integer.compare(o1[2],o2[2]));//접수완료후 정비에 도착시간,접수창구번호가빠른순
-     
+    
     static void reception(){
         int time=0;
         int[] wait=new int[N+1];//접수는 N
