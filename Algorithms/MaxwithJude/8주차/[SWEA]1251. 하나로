@@ -1,0 +1,95 @@
+package Graphmin;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+public class Turnnel {
+	
+	static class Island implements Comparable<Island>{
+		int X, Y;
+		double D;
+		
+		public Island(int x, int y, double d) {
+			super();
+			X =x;
+			Y = y;
+			D = d;
+		}
+		@Override
+		public int compareTo(Island o) {
+			// TODO Auto-generated method stub
+			return Double.compare(this.D, o.D);
+		}
+		
+	}
+	static int INF = Integer.MAX_VALUE;
+	
+	
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		int t = Integer.parseInt(br.readLine());
+		for(int tc = 1; tc <= t; tc++) {
+			
+			int N = Integer.parseInt(br.readLine());//섬의 개수
+			int E = N*(N-1) / 2;
+			
+			List<Island>[] adjList = new ArrayList[N];
+			for(int i = 0; i < N; i++) {
+				adjList[i] = new ArrayList<>();
+			}
+			int[] a = new int[N];
+			st = new StringTokenizer(br.readLine());
+			for(int i = 0; i < N; i++) {
+				a[i] = Integer.parseInt(st.nextToken());
+			}
+			
+			int [] b= new int[N];
+			st = new StringTokenizer(br.readLine());
+			for(int i = 0; i < N; i++) {
+				
+				b[i] = Integer.parseInt(st.nextToken());
+			}
+			
+			double tax = Double.parseDouble(br.readLine()); //비용 계수 
+			
+			for(int i = 0; i < N-1; i++) {
+				for(int j = i +1; j < N; j++) {
+					
+					double D = (tax * (Math.pow(a[i] - a[j], 2) + Math.pow(b[i] - b[j], 2)));
+					adjList[i].add(new Island(i, j, D));
+					adjList[j].add(new Island(j, i, D));
+				}
+			}
+			
+			boolean [] visited = new boolean[N];
+			PriorityQueue<Island> pq = new PriorityQueue<>();
+			visited[0] = true;
+			
+			double res = 0;
+			int pick = 1;
+			
+			pq.addAll(adjList[0]);
+			
+			while(pick != N) {
+				Island is = pq.poll();
+				if(visited[is.Y])continue;
+				
+				res += is.D;
+				visited[is.Y] = true;
+				pick++;
+				
+				pq.addAll(adjList[is.Y]);
+			}
+			res = Math.round(res * 10) / 10.0;
+			System.out.printf("#"+tc+ " %.0f%n", res);
+			
+			
+			
+		}
+}
+}
