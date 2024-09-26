@@ -37,6 +37,7 @@ local.properties
 
 # sbteclipse plugin
 .target
+.project
 
 # Tern plugin
 .tern-project
