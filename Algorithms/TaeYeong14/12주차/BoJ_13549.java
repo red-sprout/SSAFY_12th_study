@@ -10,10 +10,10 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
+        int X = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
-        if (N == K) {
+        if (X == K) {
             System.out.println(0);
             return;
         }
@@ -23,7 +23,7 @@ public class Main {
         Arrays.fill(visited, Integer.MAX_VALUE);
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(N, 0));
+        pq.add(new Node(X, 0));
         visited[N] = 0;
 
         while (!pq.isEmpty()) {
