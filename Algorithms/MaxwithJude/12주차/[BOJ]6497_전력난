@@ -1,0 +1,95 @@
+package solu;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+class Node{
+	int x;
+	int y;
+	int dis;
+	Node(int x, int y, int dis){
+		this.x = x;
+		this.y = y;
+		this.dis = dis;
+	}
+}
+
+public class Main5 {
+	
+	
+	static ArrayList<Node> adjList = new ArrayList<>();
+	static int V,E, cost ,ans;
+	static int[] ufind;
+	static StringBuilder sb = new StringBuilder();
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        while(true) {
+        	StringTokenizer st = new StringTokenizer(br.readLine());
+        	V = Integer.parseInt(st.nextToken());
+        	E = Integer.parseInt(st.nextToken());
+        	//둘다 0이면 입력 종료
+        	if(V == 0 && E == 0)break;
+        	//v-1개 뽑으면 모두 연결이므로 멈춘다.
+        	adjList = new ArrayList<>();
+        	ufind = new int[V+1];//부모 확인 배열
+        	//입력받기
+        	for(int i = 0; i < ufind.length; i++) {
+        		ufind[i] = i;
+        	}
+        	//가중치가 여기선 거리를 기준 오름차순 정렬 후 사이클 만들지 않는 간선 선택
+        	cost = 0; //전체 비용
+        	
+        	for(int i = 0; i<E; i++) {
+        		st = new StringTokenizer(br.readLine());
+        		int x = Integer.parseInt(st.nextToken());
+        		int y = Integer.parseInt(st.nextToken());
+        		int dis = Integer.parseInt(st.nextToken());
+        		adjList.add(new Node(x, y, dis));
+        		cost += dis;
+        	}
+        	//모든 간선을 가중치에 따라 오름차순 정렬한다.
+        	//거리 기준으로 정렬 컴퍼레이터 내부 구현하며 바로 정렬
+        	Collections.sort(adjList, (o1, o2) -> o1.dis - o2.dis);
+        	//연결은 모두 하고 최소 비용 mst 
+        	kruskal(adjList);
+        }System.out.println(sb);
+	}
+	//유니온 파인드로 대표가 같은지 확인하고 같으면 합치지 않도록, 즉 사이클이 발생하지 않도록
+	public static int find(int x) {
+		if (x == ufind[x]) return x;
+		return ufind[x] = find(ufind[x]);
+	}
+	
+	public static void union(int x, int y) {
+		x = find(x);
+		y = find(y);
+		if(x < y) ufind[y] = x;
+		else ufind[x] = y;
+	}
+
+	private static void kruskal(ArrayList<Node> adjList) {
+		// TODO Auto-generated method stub
+		ans = 0;
+	
+		//가중치 낮은 간선부터 선택하며 트리를 증가시킨다.
+		//n-1 까지 반복
+		for(int i = 0; i < adjList.size(); i++) {
+			Node node = adjList.get(i);
+			if(find(node.x) != find(node.y)) {
+				ans += node.dis;
+				union(node.x, node.y);
+			}
+		}
+		
+		sb.append(cost - ans).append("\n");
+		
+		
+		
+	}
+}
