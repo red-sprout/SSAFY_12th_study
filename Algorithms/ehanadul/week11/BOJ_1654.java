@@ -37,7 +37,7 @@ public class Main {
             }
 
 
-            if (count >= N) {
+            if (count >= N) { // 최대 길이 랜선을 구하기 위해 등호를 포함했을 때 left가 이동
                 result = mid;
                 left = mid + 1;
             } else {
