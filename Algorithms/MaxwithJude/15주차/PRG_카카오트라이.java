@@ -177,7 +177,7 @@ public class Solution {
 			queries[i] = br.readLine();
 			int len = queries[i].length();
 			// 해당 길이의 트라이에서만 탐색
-			ans[i] = tries[len].countMatches(queries[i], 0);
+			ans[i] = tries[len].countMatches(queries[i], 0); // 글자수에 맞는 트라이만 매칭
 		}
 
 		// 결과 출력
