@@ -4,71 +4,48 @@ class Solution {
     class Node {
         Map<Integer, Integer> count = new HashMap<>();
         Map<Character, Node> children = new HashMap<>();
-        boolean isEnd = true;
     }
     
     class Trie {
-        Node rootPre = new Node();
-        Node rootPost = new Node();
-        
+        Node root = new Node();
         void add(String str) {
-            addPre(rootPre, 0, str);
-            addPost(rootPost, str.length() - 1, str);
-        }
-        
-        void addPre(Node node, int idx, String str) {
-            if(idx == str.length()) {
-                node.isEnd = true;
-                return;
+            Node node = root;
+            int length = str.length();
+            for(int i = 0; i < length; i++) {
+                char c = str.charAt(i);
+                node.children.putIfAbsent(c, new Node());
+                node.count.put(length - i, node.count.getOrDefault(length - i, 0) + 1);
+                node = node.children.get(c);
             }
-            char c = str.charAt(idx);
-            if(!node.children.containsKey(c)) node.children.put(c, new Node());
-            node.count.put(str.length() - idx, node.count.getOrDefault(str.length() - idx, 0) + 1);
-            addPre(node.children.get(c), idx + 1, str);
+            node.count.put(0, node.count.getOrDefault(0, 0) + 1);
         }
-        
-        void addPost(Node node, int idx, String str) {
-            if(idx < 0) {
-                node.isEnd = true;
-                return;
-            }
-            char c = str.charAt(idx);
-            if(!node.children.containsKey(c)) node.children.put(c, new Node());
-            node.count.put(idx, node.count.getOrDefault(idx, 0) + 1);
-            addPost(node.children.get(c), idx - 1, str);
-        }
-        
         int count(String str) {
-            if(str.charAt(0) != '?') {
-                return countPre(rootPre, 0, str);
-            } else {
-                return countPost(rootPost, str.length() - 1, str);
+            Node node = root;
+            int length = str.length();
+            for(int i = 0; i < length; i++) {
+                char c = str.charAt(i);
+                if(c == '?') return node.count.getOrDefault(length - i, 0);
+                if(!node.children.containsKey(c)) return 0;
+                node = node.children.get(c);
             }
-        }
-        
-        int countPre(Node node, int idx, String str) {
-            char now = str.charAt(idx);
-            if(now == '?') return node.count.getOrDefault(str.length() - idx, 0);
-            if(!node.children.containsKey(now)) return 0;
-            return countPre(node.children.get(now), idx + 1, str);
-        }
-        
-        int countPost(Node node, int idx, String str) {
-            char now = str.charAt(idx);
-            if(now == '?') return node.count.getOrDefault(idx, 0);
-            if(!node.children.containsKey(now)) return 0;
-            return countPost(node.children.get(now), idx - 1, str);
+            return node.count.getOrDefault(0, 0);
         }
     }
     
+    String reverse(String str) {
+        return new StringBuilder(str).reverse().toString();
+    }
+    
     public int[] solution(String[] words, String[] queries) {
-        Trie trie = new Trie();
+        Trie prefix = new Trie();
+        Trie postfix = new Trie();
         int[] answer = new int[queries.length];
         for(String s : words) {
-            trie.add(s);
+            prefix.add(s);
+            postfix.add(reverse(s));
         }
         for(int i = 0; i < queries.length; i++) {
-            answer[i] = trie.count(queries[i]);
+            answer[i] = queries[i].charAt(0) == '?' ? postfix.count(reverse(queries[i])) : prefix.count(queries[i]);
         }
         return answer;
     }
