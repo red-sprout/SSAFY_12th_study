@@ -1,59 +1,60 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+		    // 입력
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T = Integer.parseInt(br.readLine());
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < T; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            int A = Integer.parseInt(st.nextToken());
-            int B = Integer.parseInt(st.nextToken());
+            int A = Integer.parseInt(st.nextToken()); // 초기값
+            int B = Integer.parseInt(st.nextToken()); // 목표값
+            // 실행
             sb.append(bfs(A, B)).append("\n");
         }
-
+				// 출력
         System.out.print(sb.toString());
     }
     
     static String bfs(int start, int target) {
-        boolean[] visited = new boolean[10000];
+        boolean[] visited = new boolean[10000]; // 지스터가 저장할 수 있는 값의 범위가 0 이상 10,000 미만
         Queue<Node> queue = new LinkedList<>();
-        queue.add(new Node(start, ""));
+        queue.add(new Node(start, "")); // 각 정수를 Node 객체로 관리
         visited[start] = true;
 
         while (!queue.isEmpty()) {
             Node current = queue.poll();
-          
-            // 목표 값에 도달했으면 명령어 나열 반환
+
+						// 목표 도달했을 때
             if (current.value == target) {
-                return current.path;
+                return current.path; // 경로 반환
             }
-
-            // D 명령어 적용: 값의 두 배 후 10000으로 나눈 나머지 저장
+						
+						// D 연산
             int D = (current.value * 2) % 10000;
-            if (!visited[D]) { // 아직 방문하지 않았다면
-                visited[D] = true;
-                queue.add(new Node(D, current.path + "D")); // 큐에 새로운 상태와 경로 추가
+            if (!visited[D]) { // 값 D에 해당하는 숫자에 이미 도달하지 않았다면
+                visited[D] = true; // 방문처리
+                queue.add(new Node(D, current.path + "D")); // 큐에 추가해 탐색 진행
             }
 
-            // S 명령어 적용: 1을 뺀 값, 0일 경우 9999로 설정
+						// S 연산
             int S = (current.value == 0) ? 9999 : current.value - 1;
             if (!visited[S]) {
                 visited[S] = true;
                 queue.add(new Node(S, current.path + "S"));
             }
 
-            // L 명령어 적용: 네 자릿수 왼쪽으로 회전
+						// L 연산
             int L = (current.value % 1000) * 10 + current.value / 1000;
             if (!visited[L]) {
                 visited[L] = true;
                 queue.add(new Node(L, current.path + "L"));
             }
 
-            // R 명령어 적용: 네 자릿수 오른쪽으로 회전
+						// R 연산
             int R = (current.value % 10) * 1000 + (current.value / 10);
             if (!visited[R]) {
                 visited[R] = true;
@@ -61,16 +62,16 @@ public class Main {
             }
         }
 
-        return ""; // 모든 경우를 탐색해도 목표 값에 도달하지 못한 경우 (유효한 입력에서는 도달함)
+        return "";
     }
 
     static class Node {
-        int value; // 현재 레지스터 값
-        String path; // 명령어 나열
+        int value;
+        String path;
 
         Node(int value, String path) {
-            this.value = value;
-            this.path = path;
+            this.value = value; // 값
+            this.path = path; // 경로
         }
     }
 }
