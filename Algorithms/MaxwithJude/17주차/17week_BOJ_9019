@@ -1,0 +1,86 @@
+package boj;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+
+public class Main2 {
+	static int T, start, end;
+	static boolean visited[];
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		T = Integer.parseInt(br.readLine());
+		
+		for(int tc = 0; tc < T; tc++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			start = Integer.parseInt(st.nextToken());
+			end = Integer.parseInt(st.nextToken());
+			
+			visited = new boolean[10000];
+			visited[start] = true;
+			
+			Queue<Register> qu = new LinkedList<>();
+			qu.add(new Register(start, ""));
+			
+			while(!qu.isEmpty()) {
+				Register curr= qu.poll();
+				
+				if(curr.num == end) {
+					sb.append(curr.command).append('\n');
+					break;
+				}
+				
+				if(!visited[curr.D()]) {
+					qu.add(new Register(curr.D(), curr.command + "D"));
+					visited[curr.D()] = true;
+				}
+				
+				if(!visited[curr.S()]) {
+					qu.add(new Register(curr.S(), curr.command + "S"));
+					visited[curr.S()] = true;
+				}
+				if(!visited[curr.L()]) {
+					qu.add(new Register(curr.L(), curr.command + "L"));
+					visited[curr.L()] = true;
+				}
+				if(!visited[curr.R()]) {
+					qu.add(new Register(curr.R(), curr.command + "R"));
+					visited[curr.R()] = true;
+				}
+				
+			}
+		}System.out.println(sb);
+		
+	}
+	
+	//연산할 숫자랑 커맨드
+	static class Register{
+		int num;
+		String command;
+		
+		public Register(int num, String command) {
+			this.num = num;
+			this.command = command;
+		}
+		
+		int D() {
+			return (num * 2) % 10000;
+		}
+		
+		int S() {
+			return (num == 0 ? 9999 : num-1);
+		}
+		
+		int L() {
+			return num % 1000  * 10 + num / 1000;
+		}
+		int R() {
+			return num % 10 * 1000 + num / 10;
+		}
+	}
+}
