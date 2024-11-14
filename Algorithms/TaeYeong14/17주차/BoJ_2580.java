@@ -1,11 +1,11 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Sudoku {
+public class Main {
     static int[][] board = new int[9][9];
 
     public static void main(String[] args) throws Exception {
+		    // 입력
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         for (int i = 0; i < 9; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -13,61 +13,63 @@ public class Sudoku {
                 board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
+        
+        // 실행
         solveSudoku(0, 0);
     }
 
     public static boolean solveSudoku(int row, int col) {
-        // 모든 행을 다 채운 경우, 스도쿠 완성
-        if (row == 9) {
-            printBoard(); // 완성된 보드 출력
-            return true;
-        }
-      
-        // 열이 9에 도달한 경우 다음 행의 첫 번째 열로 이동
-        if (col == 9) {
-            return solveSudoku(row + 1, 0);
-        }
-      
-        // 이미 숫자가 채워진 칸인 경우 다음 칸으로 이동
-        if (board[row][col] != 0) {
-            return solveSudoku(row, col + 1);
+        if (row == 9) { // 모든 행을 탐색 완료한 상태 - 스도쿠 완성!
+		        // 출력
+            printBoard();
+            return true; // 탐색 종료
         }
 
-        for (int num = 1; num <= 9; num++) {
-            // 현재 숫자를 놓아도 규칙을 만족하는지 확인
-            if (isSafe(row, col, num)) {
-                board[row][col] = num; // 숫자 놓기
-                // 다음 칸으로 이동하며 재귀 호출
-                if (solveSudoku(row, col + 1)) {
-                    return true; // 정답을 찾은 경우 true 반환
+        if (col == 9) { // 열의 끝에 도달했을 때
+            return solveSudoku(row + 1, 0); // 다음 행으로 이동
+        }
+
+        if (board[row][col] != 0) { // 이미 채워진 칸인 경우
+            return solveSudoku(row, col + 1); // 다음 열로 이동
+        }
+
+        for (int num = 1; num <= 9; num++) { // 1부터 9까지 숫자 넣기 시도
+            if (isSafe(row, col, num)) { // 조건을 만족하는 경우
+                board[row][col] = num; // 빈칸에 해당 숫자 채우고
+                if (solveSudoku(row, col + 1)) { // 다음 칸으로 이동해서 탐색
+                    return true; // 현재 칸에 숫자를 배치하고 나서 나머지 모든 칸도 성공적으로 채워진 경우 return true
                 }
-                board[row][col] = 0; // 실패한 경우 다시 0으로 초기화 (백트래킹)
+                board[row][col] = 0; // 불가능한 경우에는 다시 빈칸으로 설정
             }
         }
-        return false;
+        return false; // 유효한 경우가 없는 경우
     }
 
+		// 유효성 검사 메소드
     public static boolean isSafe(int row, int col, int num) {
-        // 같은 행과 열에 num이 존재하는지 확인
         for (int i = 0; i < 9; i++) {
+		        // 같은 행, 열에 num이 존재하는지 체크
             if (board[row][i] == num || board[i][col] == num) {
                 return false;
             }
         }
 
-        // 3x3 작은 구역에서 num이 존재하는지 확인
+				
+        // (row, col)이 속한 3x3 그리드 시작 위치
         int startRow = (row / 3) * 3;
         int startCol = (col / 3) * 3;
+        // 3x3 그리드에 num이 존재하는지 확인
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (board[startRow + i][startCol + j] == num) {
-                    return false; 
+                    return false;
                 }
             }
         }
-        return true; // 놓아도 되는 경우 true 반환
+        return true;
     }
 
+		// 결과 출력 메소드
     public static void printBoard() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 9; i++) {
