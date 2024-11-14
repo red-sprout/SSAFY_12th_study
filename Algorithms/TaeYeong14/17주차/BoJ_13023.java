@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     static int N, M;
@@ -42,7 +40,7 @@ public class Main {
     }
 
     public static void dfs(int node, int depth) {
-        if (depth == 5) {
+        if (depth == 5) { // 연결된 다섯 명의 친구가 존재
             found = true;
             return;
         }
