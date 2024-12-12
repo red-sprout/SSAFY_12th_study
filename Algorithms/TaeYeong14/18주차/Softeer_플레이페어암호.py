@@ -69,7 +69,7 @@ def encryption(message_pairs, table):
     return ''.join(encrypted)
 
 
-def playfair_cipher(message, key):
+def get_result(message, key):
     table = build_table(key)  # 키로 5x5 표 생성
     processed_message = preprocess(message)  # 메시지 전처리
     return encryption(processed_message, table)  # 암호화 수행
@@ -80,7 +80,7 @@ message = input().strip()
 key = input().strip()
 
 # 실행
-result = playfair_cipher(message, key)
+result = get_result(message, key)
 
 # 출력
 print(result)
